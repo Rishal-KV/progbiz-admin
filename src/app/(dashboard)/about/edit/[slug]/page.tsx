@@ -36,6 +36,8 @@ export default function AboutSectionForm() {
   })
 
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+
   useEffect(() => {
     const fetchAboutData = async () => {
       try {
@@ -50,12 +52,15 @@ export default function AboutSectionForm() {
   
   async function onFormSubmit(data: AboutSectionFormValues) {
     try {
+      setIsSubmitting(true)
       console.log(data)
       const response = await updateAbout(data,slug as string)
       router.push("/about?type=about")
       toast.success(response.message)
     } catch (error:any) {
       toast.error(error.response.data.message || "Something went wrong. Please try again.")
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -107,8 +112,8 @@ export default function AboutSectionForm() {
 
             <div className="flex justify-end space-x-4">
            
-              <Button type="submit" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? "Saving..." : "Save Changes"}
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </form>

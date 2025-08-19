@@ -49,7 +49,7 @@ export default function HeroAdminForm() {
   })
 
   const router = useRouter()
-
+const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const onSubmit = async (data: HeroFormValues) => {
     const formData = new FormData()
     formData.append("title", data.title)
@@ -62,7 +62,7 @@ export default function HeroAdminForm() {
     }
 
     setImageError("")
-
+    setIsSubmitting(true) 
     try {
 
       const response = await createHero(formData)
@@ -89,6 +89,9 @@ export default function HeroAdminForm() {
       //   description: "Something went wrong. Please try again.",
       //   variant: "destructive",
       // })
+    }
+    finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -243,8 +246,8 @@ export default function HeroAdminForm() {
             </div>
 
             <div className="w-full flex justify-end items-center">
-              <Button type="submit" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? "Creating..." : "Create Hero Section"}
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Creating..." : "Create Hero Section"}
               </Button>
             </div>
           </form>

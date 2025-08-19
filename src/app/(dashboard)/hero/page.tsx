@@ -42,7 +42,7 @@ const HeroSectionPage = () => {
       accessorKey: "image",
       header: "Image",
       cell: ({ row }) => {
-        const imageUrl = row.original.image.secure_url
+        const imageUrl = row.original?.image?.secure_url
         return (
           <Image
             src={imageUrl}
